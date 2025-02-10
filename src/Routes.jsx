@@ -8,6 +8,9 @@ import Header from "./components/feature/Header";
 import Footer from "./components/feature/Footer";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Adminpage from "./components/feature/AppDrawer";
+import Dashboard from "./Pages/Admin/Dashboard";
+
 
 const LayoutWithHeader = () => {
   return (
@@ -29,7 +32,10 @@ const AppRoutes = () => {
           <Route path="/contact" element={<Contact />} />
         </Route>
         <Route path="/login" element={<Login />} />
-        <Route path="/Signup" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/admin" element={<Adminpage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+
 
         <Route path="*" element={<NotFound />} /> 
       </Routes>
