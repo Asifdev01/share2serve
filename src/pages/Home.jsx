@@ -92,11 +92,12 @@ function Home() {
             DONATE FOOD,<br/>
             CHANGE LIVES
          </p>
+
       <Box>
           <p className='overlay-text2'>
             We connect food businesses with charitable organizations to rescue<br/>
             perfectly good food that would otherwise be discharged.<br/>
-            <MyButton children={'DONATE FOOD'}/>
+            <MyButton sx={{marginTop:"40px"}} children={'DONATE FOOD'}/>
             <MyButton sx={{marginLeft:"20px",width: "500px",}} children={'EXPLORE OUR SERVICES →'}/>
             </p>
             

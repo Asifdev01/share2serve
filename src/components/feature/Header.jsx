@@ -1,8 +1,30 @@
 import * as React from 'react';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material';
 import { Menu as MenuIcon, Adb as AdbIcon } from '@mui/icons-material';
+import { Link } from 'react-router';
 
-const pages = ['Admin ', 'Food Donors', 'Charities', 'Volentiers', 'About us'];
+const pages = [{
+  label:'Admin ',
+  link: '/admin'
+},
+{
+  label:'Food Donors ',
+  link: '/fooddonors'
+}, 
+{
+  label:'Charities ',
+  link: '/charities'
+}, 
+{
+  label:'Volentiers ',
+  link: '/volentiers'
+},
+{
+  label:'About us ',
+  link: '/aboutus'
+},
+];
+
 const settings = ['Profile', 'Account','Logout'];
 
 function Header() {
@@ -50,9 +72,15 @@ function Header() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {/* {
+                label:'About us ',
+                link: '/aboutus'
+              }, */}
+              {pages.map((item) => (
+                <MenuItem key={item.label} onClick={handleCloseNavMenu}>
+                  <Link to={item.link}>
+                  <Typography textAlign="center">{item.label}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -81,15 +109,17 @@ function Header() {
           <Box sx={{ flexGrow: 1, display: {
              xs: 'none', md: 'flex', display: 'flex', justifyContent: 'right', alignItems: 'right', 
            } }}>
-            {pages.map((page) => (
-              <Button key={page} onClick={handleCloseNavMenu} 
+            {pages.map((item) => (
+              <Link to={item.link}>
+              <Button key={item.label} onClick={handleCloseNavMenu} 
               sx={{ my: 2, color: 'black', display: 'flex',float: 'right',mr:7,
                 '&:hover': {
                   backgroundColor: '#B1DD2B', 
                 },
-              }}>
-                {page}
-              </Button>
+              }}> 
+                {item.label}
+                
+              </Button></Link>
             ))}
           </Box>
 

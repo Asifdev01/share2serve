@@ -19,11 +19,11 @@ const MyButton = styled(Button)(({ theme }) => ({
     backgroundColor: "#9fc824", // Slightly darker shade for hover effect
   },
   [theme.breakpoints.down("sm")]: {
-    fontSize: "12px",
+    fontSize: "8px",
     width: "108px",
     height: "45px",
     borderRadius: "5px",
-    marginTop:"13px",
+    marginTop:"15px",
   },
 }));
 

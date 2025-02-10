@@ -47,7 +47,7 @@
 .overlay-text {
   position: absolute;
   top: 20px;
-  left: 10px;
+  left: 18px;
   color: rgb(0, 0, 0);
   padding: 2vw 4vw;
   font-size: 5.5vw;
@@ -83,14 +83,18 @@
 }
 @media (max-width: 700px) {
   .overlay-text {
-      font-size: 5vw;
-      padding: 3vw 5vw;
+      font-size: 4.5vw;
+      padding: 3vw 4vw;
   }
   .overlay-text2 {
       font-size: 2.5vw;
       padding: 2vw 4vw;
       top: calc(10px + 5vw + 30px + 5vw);
   }
+}
+
+.overlay-text MyButton {
+  margin-top:0px;
 }
 
 .howitworks{
@@ -107,8 +111,9 @@
     .howitworks{
       margin-bottom: 50px;
       margin-top: 50px;
-      font-size: 2rem;
-      font-weight: 600;
+      font-size: 1.6rem;
+      font-weight: 500;
+      font-family: 'Albert Sans', sans-serif;
     }
 }
 .text2{
