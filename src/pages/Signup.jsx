@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Grid, TextField, Button, Box, Typography } from "@mui/material";
+import { Container, Grid2 as Grid, TextField, Button, Box, Typography } from "@mui/material";
 import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
 import { Link } from "react-router";
@@ -10,9 +10,7 @@ const Signup = () => {
       <Grid container sx={{ flex: 1 }}>
         {/* Left Side - Image */}
         <Grid
-          item
-          xs={12}
-          md={6}
+        size={{xs:12, md:6}}
           sx={{
             display: { xs: "none", md: "flex" }, // Hide on small screens
             alignItems: "center",
@@ -25,9 +23,7 @@ const Signup = () => {
 
         {/* Right Side - Login Form */}
         <Grid
-          item
-          xs={12}
-          md={6}
+           size={{xs:12, md:6}}
           sx={{
             display: "flex",
             alignItems: "center",
