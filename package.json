@@ -16,9 +16,11 @@
     "@mui/material": "^6.4.2",
     "@toolpad/core": "^0.12.0",
     "firebase": "^11.3.0",
+    "formik": "^2.4.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router": "^7.1.5"
+    "react-router": "^7.1.5",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

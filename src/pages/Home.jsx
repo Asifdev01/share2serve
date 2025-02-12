@@ -1,8 +1,5 @@
 import react from 'react'
-import Header from '../Header'
 import { Button, Stack, Typography ,Box} from '@mui/material'
-// import pufrom './images/feedingImg.jpg';
-// import feedingImg from '../public/feedingImg.jpg'
 import './Home.css'
 import CenteredBox from '../components/ui/centeredBox'
 import Cardd from '../Cardd'
@@ -21,7 +18,7 @@ const containerStyle = {
   };
   
   const buttonStyle = {
-    backgroundColor: '#B1DD2B', 
+    backgroundColor: '#87A920', 
     justifyContent: 'center',
     display: 'flex',
     color: 'white',
@@ -48,12 +45,12 @@ const containerStyle = {
       body: "Venues,restaurants,hostels,stadiums or any events post excess food are donated in the share2serve"
     },
     {
-      image: "/image.png",
+      image: "/foodselecting.jpg",
       title: "Food is Filtered",
       body: "Pre-added charities distribute excess food to people in need, while leftovers go to stray animals."
     },
     {
-      image: "/image.png",
+      image: "/foodpicked.png",
       title: "Food is Picked up",
       body: "The charity, or a network of volunteers, picks up the food and serves it to hungry people."
     }
@@ -61,19 +58,19 @@ const containerStyle = {
 
   const cardData2 = [
     {
-      image: "/image.png",
-      title: "Food is Donated",
-      body: "Venues,restaurants,hostels,stadiums or any events post excess food are donated in the share2serve"
+      image: "/foodwastage.jpg",
+      title: "Home Food Wastage",
+      body: "A lot of food is wasted at home due to poor storage, overbuying, and uneaten leftovers, impacting both the environment and economy. Solutions like cooking classes, meal planning, and creative leftover recipes can help reduce waste." 
+      },
+    {
+      image: "/overfood.jpg",
+      title: "Overproduction and Market Imbalances",
+      body: "Overproduction due to inaccurate demand or market swings causes significant food waste.Solution: Better forecasting, supply chain communication, and alternative markets. "
     },
     {
-      image: "/image.png",
-      title: "Food is Filtered",
-      body: "Pre-added charities distribute excess food to people in need, while leftovers go to stray animals."
-    },
-    {
-      image: "/image.png",
-      title: "Food is Picked up",
-      body: "The charity, or a network of volunteers, picks up the food and serves it to hungry people."
+      image: "/infrafood.jpg",
+      title: "Infrastructure of food wastage diversion",
+      body: "Many communities lack composting and food waste processing infrastructure, sending food scraps to landfills. Solution: Invest in these facilities like share2serve where we fix these problems."
     }
   ];
 
@@ -81,7 +78,7 @@ function Home() {
 
   return (
     <>
-    {/* <Header/> */}
+
 
     <Stack className='image-container'>
         {/* <h1>hiii</h1> */}
@@ -90,14 +87,14 @@ function Home() {
 
          <p className='overlay-text'>
             DONATE FOOD,<br/>
-            CHANGE LIVES
+            CHANGE LIVES.
          </p>
 
       <Box>
           <p className='overlay-text2'>
             We connect food businesses with charitable organizations to rescue<br/>
             perfectly good food that would otherwise be discharged.<br/>
-            <MyButton sx={{marginTop:"40px"}} children={'DONATE FOOD'}/>
+            <MyButton sx={{marginTop:"40px"}} children={'DONATE NOW'}/>
             <MyButton sx={{marginLeft:"20px",width: "500px",}} children={'EXPLORE OUR SERVICES →'}/>
             </p>
             
@@ -146,6 +143,12 @@ function Home() {
 </Box>
 
 <Cardd cards={cardData2}/>
+
+{/* <Box sx={{bgcolor:"#87a920"}}>
+<Typography variant='h4' textAlign={'center'}>
+       FOOD FACTS
+     </Typography>
+</Box> */}
 
 
    

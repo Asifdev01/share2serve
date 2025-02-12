@@ -4,56 +4,61 @@ import { Dashboard, People, Settings, Notifications, Menu as MenuIcon } from "@m
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import { DRAWER_WIDTH } from "../../../constant/constant";
+import { useNavigate } from "react-router";
 
-const drawerWidth = 240;
-
-export default function AdminDashboard() {
+const AppDrawer = ({HomeMenuItems}) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeButton, setActiveButton] = useState("Dashboard");
+  // const [activeButton, setActiveButton] = useState("Donor");
+
+  const navigate = useNavigate(); 
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleButtonClick = (text) => {
+  const handleButtonClick = (text, path) => {
     setActiveButton(text);
-    <style>
-      color: #87A920;
-    </style>
+    navigate(path); 
   };
 
+  const AdminMenuItems = [
+    { text: "Dashboard", icon: <Dashboard />, path: "admin/dashboard" },
+    { text: "Donors", icon: <People />, path: "admin/Donor" },
+    { text: "Food Donated", icon: <VolunteerActivismIcon />, path: "admin/fooddonor" },
+    { text: "Requests", icon: <PlaylistAddIcon />, path: "admin/request" },
+    { text: "Partners", icon: <ApartmentIcon />, path: "admin/partnerlist" },
+    { text: "Notifications", icon: <Notifications />, path: "/notifications" },
+    { text: "Settings", icon: <Settings />, path: "/settings" }
+  ];
+const menuItems = HomeMenuItems || AdminMenuItems;
   const drawer = (
     <div>
-      <Toolbar>
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: "bold",
-            fontFamily: "Kaushan Script, serif",
-            fontSize: "1.5rem",
-          }}
-        >
-          Share2serve
-        </Typography>
-      </Toolbar>
+      {HomeMenuItems && (
+         <Toolbar>
+         <Typography variant="title"  sx={{ textDecoration: "none"}}>
+          <a href="/admin/dashboard"> Share2serve</a>
+         </Typography>
+       </Toolbar>
+      )}
+     
       <List>
-        {["Dashboard", "Donors", "Food Donated", "Requests", "Partners", "Notifications", "Settings"].map((text, index) => (
+        {menuItems.map(({ text, icon, path }) => (
           <ListItemButton
             key={text}
             selected={activeButton === text}
-            onClick={() => handleButtonClick(text)}
-            
-          >
-            <ListItemIcon>
-              {index === 0 ? <Dashboard color="#87A920" />
-                : index === 1 ? <People />
-                : index === 2 ? <VolunteerActivismIcon />
-                : index === 3 ? <PlaylistAddIcon />
-                : index === 4 ? <ApartmentIcon />
-                : index === 5 ? <Notifications />
-                : <Settings />
+            onClick={() => handleButtonClick(text, path)}
+            sx={{
+              // mb: 0.5,
+              "&.Mui-selected": {
+                backgroundColor: "#87A920",
+                color: "#fff",
+                "& .MuiListItemIcon-root": { color: "#fff" }
               }
-            </ListItemIcon>
+            }}
+          >
+            <ListItemIcon>{icon}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItemButton>
         ))}
@@ -62,13 +67,15 @@ export default function AdminDashboard() {
   );
 
   return (
+    <>
+
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         color="default"
         elevation={0}
         position="fixed"
-        sx={{ width: { sm: `calc(100% - ${drawerWidth}px)` }, ml: { sm: `${drawerWidth}px` } }}
+        sx={{ width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` }, ml: { sm: `${DRAWER_WIDTH}px` } }}
       >
         <Toolbar>
           <IconButton
@@ -80,10 +87,11 @@ export default function AdminDashboard() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" mt={1} gutterBottom>
-            Dashboard
+            {activeButton}
           </Typography>
         </Toolbar>
       </AppBar>
+
       <Drawer
         variant="temporary"
         open={mobileOpen}
@@ -94,10 +102,14 @@ export default function AdminDashboard() {
       </Drawer>
       <Drawer
         variant="permanent"
-        sx={{ display: { xs: "none", sm: "block" }, width: drawerWidth, flexShrink: 0 }}
+        sx={{ display: { xs: "none", sm: "block" }, width: DRAWER_WIDTH, flexShrink: 0 }}
       >
         {drawer}
       </Drawer>
     </Box>
+
+    </>
   );
 }
+
+export default AppDrawer;

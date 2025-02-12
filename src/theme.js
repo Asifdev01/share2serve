@@ -1,24 +1,15 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles"
+
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2", // Blue
-    },
-    secondary: {
-      main: "#dc004e", // Pink
-    },
-    background: {
-      default: "#f4f6f8", // Light Gray
-      paper: "#ffffff", // White
-    },
-    text: {
-      primary: "#212121", // Dark Gray
-      secondary: "#757575", // Light Gray
-    },
-  },
   typography: {
     fontFamily: "'Roboto', sans-serif",
+    title: {
+      textdecoration: "none",
+      fontWeight: "bold",
+      fontFamily: "Kaushan Script, serif",
+      fontSize: "1.5rem",
+    },
     h1: {
       fontSize: "2.5rem",
       fontWeight: 700,
@@ -34,6 +25,22 @@ const theme = createTheme({
       textTransform: "none",
     },
   },
+  palette: {
+    primary: {
+      main: "#1976d2",
+    },
+    secondary: {
+      main: "#dc004e",
+    },
+    background: {
+      default: "#f4f6f8",
+      paper: "#ffffff",
+    },
+    text: {
+      primary: "#212121",
+      secondary: "#757575",
+    },
+  },
   components: {
     MuiButton: {
       styleOverrides: {
@@ -47,7 +54,7 @@ const theme = createTheme({
         root: {
           "& .MuiOutlinedInput-root": {
             borderRadius: "20px",
-            backgroundColor: "#ffffff", // Ensuring better readability
+            backgroundColor: "#ffffff",
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: "#1976d2",
             },

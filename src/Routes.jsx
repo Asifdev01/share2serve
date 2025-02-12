@@ -9,7 +9,15 @@ import Footer from "./components/feature/Footer";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Adminpage from "./components/feature/AppDrawer";
-import Dashboard from "./Pages/Admin/Dashboard";
+import AdminDashboard from "./components/feature/AppDrawer";
+import AppDrawer from "./components/feature/AppDrawer";
+import Dashboard from "./pages/Admin/Dashboard";
+import Donor from "./pages/Admin/Donor";
+import FoodDoner from "./pages/Admin/FoodDoner";
+import Request from "./pages/Admin/Request";
+import PartnersList from "./pages/Admin/PartnerList";
+import Donate from "./pages/DonateNow/Donate";
+
 
 
 const LayoutWithHeader = () => {
@@ -18,6 +26,25 @@ const LayoutWithHeader = () => {
       <Header />
       <Outlet /> 
       <Footer />
+    </>
+  );
+};
+
+
+const LayoutWithAdmin = () => {
+  return (
+    <>
+      <AppDrawer/>
+      <Outlet /> 
+    </>
+  );
+};
+
+const LayoutWithDonateNow = () => {
+  return (
+    <>
+      <Header/>
+      <Outlet /> 
     </>
   );
 };
@@ -33,8 +60,25 @@ const AppRoutes = () => {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/admin" element={<Adminpage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route element ={<LayoutWithAdmin/>}>
+
+         <Route path="/admin/dashboard" element={<Dashboard />} />
+         <Route path="/admin/donor" element={<Donor />} />
+         <Route path="/admin/fooddonor" element={<FoodDoner />} />
+         <Route path="/admin/request" element={<Request />} />
+         <Route path="/admin/partnerlist" element={<PartnersList />} />
+
+
+        {/* <Route path="/admin" element={<Adminpage />} /> */}
+        </Route>
+        
+        <Route element={<LayoutWithDonateNow />}>
+
+        <Route path="/donate" element={<Donate/>} />
+        
+        </Route>
+
 
 
         <Route path="*" element={<NotFound />} /> 
