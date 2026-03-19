@@ -1,13 +1,11 @@
 import react from 'react'
-import Header from '../Header'
 import { Button, Stack, Typography ,Box} from '@mui/material'
-// import pufrom './images/feedingImg.jpg';
-// import feedingImg from '../public/feedingImg.jpg'
 import './Home.css'
 import CenteredBox from '../components/ui/centeredBox'
 import Cardd from '../Cardd'
 import MyButton from '../components/ui/MyButton'
 import { Link } from 'react-router'
+import { useAuth } from '../context/AuthContext'
 
 const containerStyle = {
     display: 'flex',
@@ -78,11 +76,10 @@ const containerStyle = {
   ];
 
 function Home() {
+  const { token } = useAuth();
 
   return (
     <>
-    {/* <Header/> */}
-
     <Stack className='image-container'>
         {/* <h1>hiii</h1> */}
 
@@ -107,6 +104,7 @@ function Home() {
 
     </Stack>
 
+    {!token && (
     <Box sx={containerStyle}>
       <Typography variant="body1" sx={textStyle}>
         First login to use our services
@@ -119,6 +117,7 @@ function Home() {
        
       </Button> </Link>
     </Box>
+    )}
 
     <p className='howitworks'>
       HOW IT WORKS

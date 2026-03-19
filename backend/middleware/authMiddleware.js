@@ -1,10 +1,13 @@
 const jwt = require("jsonwebtoken");
 
+/**
+ * Middleware to protect routes via JWT verification
+ */
 const protect = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Not authorized, no token" });
+    return res.status(401).json({ success: false, message: "Not authorized, no token provided" });
   }
 
   const token = authHeader.split(" ")[1];
@@ -14,15 +17,19 @@ const protect = (req, res, next) => {
     req.user = decoded; // { id, name, email, role }
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Not authorized, token invalid" });
+    console.warn("⚠️ Invalid JWT:", error.message);
+    return res.status(401).json({ success: false, message: "Not authorized, token invalid or expired" });
   }
 };
 
+/**
+ * Middleware to restrict access to admins only
+ */
 const adminOnly = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
   } else {
-    return res.status(403).json({ message: "Access denied: Admins only" });
+    res.status(403).json({ success: false, message: "Access denied: Administrative privileges required" });
   }
 };
 

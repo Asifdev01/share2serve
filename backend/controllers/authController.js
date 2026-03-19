@@ -1,97 +1,96 @@
-const bcrypt = require("bcryptjs");
+const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-// ─── In-Memory User Store ─────────────────────────────────────────────────────
-const users = [];
-let nextId = 2;
-
-// Seed admin account at startup (password: admin123)
-const seedAdmin = async () => {
-  const hashedPassword = await bcrypt.hash("admin123", 10);
-  users.push({
-    id: "1",
-    name: "Admin",
-    email: "admin@share2serve.com",
-    password: hashedPassword,
-    role: "admin",
-  });
-  console.log("✅ Admin account ready: admin@share2serve.com / admin123");
-};
-seedAdmin();
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// Helper: Generate JWT
 const generateToken = (user) =>
   jwt.sign(
-    { id: user.id, name: user.name, email: user.email, role: user.role },
+    { id: user._id, name: user.name, email: user.email, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: "7d" }
   );
 
+// Helper: Email Validation
+const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
 // ─── Signup ──────────────────────────────────────────────────────────────────
-const signup = async (req, res) => {
-  const { name, email, password } = req.body;
+const signup = async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
 
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: "Please fill in all fields" });
+    if (!name || !email || !password) {
+      return res.status(400).json({ success: false, message: "All fields are required" });
+    }
+
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ success: false, message: "Please provide a valid email address" });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ success: false, message: "Password must be at least 6 characters" });
+    }
+
+    const userExists = await User.findOne({ email: email.toLowerCase() });
+    if (userExists) {
+      return res.status(409).json({ success: false, message: "User already exists with this email" });
+    }
+
+    const user = await User.create({
+      name,
+      email: email.toLowerCase(),
+      password,
+      role: "user", // Default role
+    });
+
+    if (user) {
+      res.status(201).json({
+        success: true,
+        message: "Account created successfully",
+        token: generateToken(user),
+        user: { id: user._id, name: user.name, email: user.email, role: user.role },
+      });
+    }
+  } catch (error) {
+    next(error);
   }
-  if (password.length < 6) {
-    return res.status(400).json({ message: "Password must be at least 6 characters" });
-  }
-
-  if (users.find((u) => u.email === email.toLowerCase())) {
-    return res.status(409).json({ message: "User already exists with this email" });
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = {
-    id: String(nextId++),
-    name,
-    email: email.toLowerCase(),
-    password: hashedPassword,
-    role: "user",
-  };
-  users.push(newUser);
-
-  const token = generateToken(newUser);
-  return res.status(201).json({
-    message: "Account created successfully",
-    token,
-    user: { id: newUser.id, name: newUser.name, email: newUser.email, role: newUser.role },
-  });
 };
 
 // ─── Login ───────────────────────────────────────────────────────────────────
-const login = async (req, res) => {
-  const { email, password } = req.body;
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: "Please enter email and password" });
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: "Email and password are required" });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() }).select("+password");
+    if (!user || !(await user.matchPassword(password))) {
+      return res.status(401).json({ success: false, message: "Invalid email or password" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      token: generateToken(user),
+      user: { id: user._id, name: user.name, email: user.email, role: user.role },
+    });
+  } catch (error) {
+    next(error);
   }
-
-  const user = users.find((u) => u.email === email.toLowerCase());
-  if (!user) {
-    return res.status(401).json({ message: "Invalid email or password" });
-  }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) {
-    return res.status(401).json({ message: "Invalid email or password" });
-  }
-
-  const token = generateToken(user);
-  return res.status(200).json({
-    message: "Login successful",
-    token,
-    user: { id: user.id, name: user.name, email: user.email, role: user.role },
-  });
 };
 
-// ─── Get Me (protected) ───────────────────────────────────────────────────────
-const getMe = (req, res) => {
-  const user = users.find((u) => u.id === req.user.id);
-  if (!user) return res.status(404).json({ message: "User not found" });
-  const { password, ...safeUser } = user;
-  res.status(200).json({ user: safeUser });
+// ─── Get Me ───────────────────────────────────────────────────────
+const getMe = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = { signup, login, getMe };

@@ -13,7 +13,6 @@ const Footer = () => {
         // px: 3,
         // padding:"10px",
         display: "flex",
-        textAlign: "center",
         justifyContent: "center",
         bottom: 0,
         width: "100%",
